@@ -8,7 +8,6 @@ from mixnet.mixcrypt import ElGamal
 
 from base import mods
 
-"""
 
 class MixnetCase(APITestCase):
     def setUp(self):
@@ -96,7 +95,6 @@ class MixnetCase(APITestCase):
         self.assertEqual(sorted(clear), sorted(clear2))
 
     def test_multiple_auths(self):
-
         data = {
             "voting": 1,
             "auths": [{"name": "auth1", "url": "http://localhost:8000"}],
@@ -140,33 +138,29 @@ class MixnetCase(APITestCase):
         self.assertNotEqual(clear, clear2)
         self.assertEqual(sorted(clear), sorted(clear2))
 
-
-
     def test_multiple_auths_mock(self):
-
         data = {
             "voting": 1,
             "auths": [
-                { "name": "auth1", "url": "http://localhost:8000" },
-                { "name": "auth2", "url": "http://127.0.0.1:8000" },
-            ]
+                {"name": "auth1", "url": "http://localhost:8000"},
+                {"name": "auth2", "url": "http://127.0.0.1:8000"},
+            ],
         }
-        response = self.client.post('/mixnet/', data, format='json')
+        response = self.client.post("/mixnet/", data, format="json")
         key = response.json()
         pk = key["p"], key["g"], key["y"]
 
         clear = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
         encrypt = self.encrypt_msgs(clear, pk)
 
-        data = { "msgs": encrypt, "pk": key }
-        response = self.client.post('/mixnet/shuffle/1/', data, format='json')
+        data = {"msgs": encrypt, "pk": key}
+        response = self.client.post("/mixnet/shuffle/1/", data, format="json")
         shuffled = response.json()
         self.assertNotEqual(shuffled, encrypt)
 
-        data = { "msgs": shuffled, "pk": key }
-        response = self.client.post('/mixnet/decrypt/1/', data, format='json')
+        data = {"msgs": shuffled, "pk": key}
+        response = self.client.post("/mixnet/decrypt/1/", data, format="json")
         clear1 = response.json()
 
         self.assertNotEqual(clear, clear1)
         self.assertEqual(sorted(clear), sorted(clear1))
-"""
